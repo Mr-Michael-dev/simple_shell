@@ -10,4 +10,6 @@
 #include <sys/types.h>
 #include <errno.h>
 
+void free_mem(char **arg);
+
 #endif /*SHELL_H*/

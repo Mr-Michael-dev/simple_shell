@@ -11,38 +11,40 @@ int main(void)
 	char *line_buf = NULL;
 	size_t buf_len = 0;
 	char *line_cpy, *token;
-	int counter, i;
+	int counter, i = 0;
 	char **a;
 	/*pid_t child_pid;*/
 
 	(void)counter;
 	printf("#gmsh$ ");
-
 	while ((getline(&line_buf, &buf_len, stdin)) != EOF)
 	{
 		line_cpy = strdup(line_buf);
-		printf("%s\n", line_cpy);
-
-		printf("#gmsh$ ");
 		a = (char **)malloc(101 * sizeof(char *));
-		token = strtok(line_buf, " \n");
+		token = strtok(line_cpy, " \n");
 		while (token != NULL)
 		{
 			a[i] = malloc(strlen(token) + 1);
-			strcpy(a[i], token);
-			i++;
+			strcpy(a[i++], token);
 			token = strtok(NULL, " \n");
 		}
 		a[i] = NULL;
 
-		free_mem(a);
+		for (i = 0; a[i]; i++)
+		{
+			printf("%s\n", a[i]);
+		}
 
+		i = 0;
+		printf("#gmsh$ ");
+		free_mem(a);
 		free(line_buf);
 		free(line_cpy);
 		line_buf = NULL;
 		buf_len = 0;
 	}
 
+	free(line_buf);
 	printf("\n");
 	return (0);
 }
