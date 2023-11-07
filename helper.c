@@ -19,12 +19,3 @@ void free_mem(char **arg)
 		free (arg);
 }
 
-/**
- *
- *
- *
- */
-char tokenizer(char *)
-{
-
-}
