@@ -9,20 +9,20 @@
 
 char **tokenize(char *line)
 {
-	char **a, *token;
+	char **arg, *token;
 	int i = 0;
 
-	a = (char **)malloc(101 * sizeof(char *));
+	arg = (char **)malloc(101 * sizeof(char *));
 	
 	token = strtok(line, " \n");
 
 	while (token != NULL)
 	{
-		a[i] = malloc(strlen(token) + 1);
-		strcpy(a[i++], token);
+		arg[i] = malloc(strlen(token) + 1);
+		strcpy(arg[i++], token);
 		token = strtok(NULL, " \n");
 	}
-	a[i] = NULL;
+	arg[i] = NULL;
 
-	return (a);
+	return (arg);
 }
