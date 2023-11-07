@@ -10,11 +10,12 @@ int main(void)
 {
 	char *line_buf = NULL;
 	size_t buf_len = 0;
-	char *line_cpyi, token;
-	int counter;
-	char **argv;
+	char *line_cpy, *token;
+	int counter, i;
+	char **a;
 	/*pid_t child_pid;*/
 
+	(void)counter;
 	printf("#gmsh$ ");
 
 	while ((getline(&line_buf, &buf_len, stdin)) != EOF)
@@ -23,16 +24,18 @@ int main(void)
 		printf("%s\n", line_cpy);
 
 		printf("#gmsh$ ");
-		argv = (10 * sizeof(char *));
-		token = strtok(lin_buff, " \n");
+		a = (char **)malloc(101 * sizeof(char *));
+		token = strtok(line_buf, " \n");
 		while (token != NULL)
 		{
-			argv[i] = malloc(sizeof(char *) * (strlen(token) + 1));
-			token = str
-				conter++;
+			a[i] = malloc(strlen(token) + 1);
+			strcpy(a[i], token);
+			i++;
 			token = strtok(NULL, " \n");
 		}
-		argv[i] = NULL;
+		a[i] = NULL;
+
+		free_mem(a);
 
 		free(line_buf);
 		free(line_cpy);
