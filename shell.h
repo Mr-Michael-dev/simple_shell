@@ -12,4 +12,6 @@
 
 void free_mem(char **arg);
 
+char **tokenize(char *line);
+
 #endif /*SHELL_H*/

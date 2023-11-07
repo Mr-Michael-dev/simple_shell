@@ -10,7 +10,7 @@ int main(void)
 {
 	char *line_buf = NULL;
 	size_t buf_len = 0;
-	char *line_cpy, *token;
+	char *line_cpy;
 	int counter, i = 0;
 	char **a;
 	/*pid_t child_pid;*/
@@ -21,15 +21,7 @@ int main(void)
 	while ((getline(&line_buf, &buf_len, stdin)) != EOF)
 	{
 		line_cpy = strdup(line_buf);
-		a = (char **)malloc(101 * sizeof(char *));
-		token = strtok(line_cpy, " \n");
-		while (token != NULL)
-		{
-			a[i] = malloc(strlen(token) + 1);
-			strcpy(a[i++], token);
-			token = strtok(NULL, " \n");
-		}
-		a[i] = NULL;
+		a = tokenize(line_cpy);
 
 		for (i = 0; a[i]; i++)
 		{
