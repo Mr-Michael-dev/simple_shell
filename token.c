@@ -23,6 +23,7 @@ char **tokenize(char *line)
 		token = strtok(NULL, " \n");
 	}
 	arg[i] = NULL;
+	i = 0;
 
 	return (arg);
 }
