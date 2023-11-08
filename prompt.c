@@ -13,53 +13,59 @@ int main(void)
 	char **arg;
 	pid_t child_pid;
 
-	do {
+	if (isatty(STDIN_FILENO))
+	{
 		printf("#gmsh$ ");
-		if ((getline(&line_buf, &buf_len, stdin)) == EOF)
-		{
-			break;
-		}
-
+	}
+	while ((getline(&line_buf, &buf_len, stdin)) != EOF)
+	{
 		line_cpy = strdup(line_buf);
-		if (line_cpy == NULL)
-		{
-			perror("strdup");
-			exit(EXIT_FAILURE);
-		}
+		/******* 
+		  if (line_cpy == NULL)
+		  {
+		  perror("strdup");
+		  exit(EXIT_FAILURE);
+		  }
+		 ********/
 
 		arg = tokenize(line_cpy);
-		if (arg == NULL)
+		if (arg == NULL || strspn(line_cpy, " \t\r\n") == strlen(line_cpy))
 		{
-			perror("tokenize");
 			free(line_cpy);
-			continue;
-		}
-
-		child_pid = fork();
-		if (child_pid == -1)
-		{
-			perror("fork");
 			free_mem(arg);
-			free(line_cpy);
-			exit(EXIT_FAILURE);
-		}
-		if (child_pid == 0)
-		{
-			execute(arg);
-			exit(EXIT_SUCCESS);
 		}
 		else
 		{
-			wait(NULL);
-		}
+			child_pid = fork();
+			if (child_pid == -1)
+			{
+				perror("fork");
+				free_mem(arg);
+				free(line_cpy);
+				exit(EXIT_FAILURE);
+			}
+			if (child_pid == 0)
+			{
+				execute(arg);
+				exit(EXIT_SUCCESS);
+			}
+			else
+			{
+				wait(NULL);
+			}
 
-		free_mem(arg);
-		free(line_buf);
-		free(line_cpy);
-		line_buf = NULL;
-		buf_len = 0;
-	} while (1);
+			free_mem(arg);
+			free(line_buf);
+			free(line_cpy);
+			line_buf = NULL;
+			buf_len = 0;
+		}
+		if (isatty(STDIN_FILENO))
+			printf("#gmsh$ ");
+	}
+
 	free(line_buf);
-	printf("\n");
+	if (isatty(STDIN_FILENO))
+		printf("\n");
 	return (0);
 }
