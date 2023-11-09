@@ -16,5 +16,5 @@ void free_mem(char **arg)
 	}
 
 	if (arg != NULL)
-		free (arg);
+		free(arg);
 }

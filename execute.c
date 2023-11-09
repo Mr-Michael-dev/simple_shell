@@ -6,7 +6,7 @@
  * Return: Nothing
  */
 void execute(char *arg[])
-{ 
+{
 	if (execve(arg[0], arg, NULL) == -1)
 	{
 		fprintf(stderr, "%s: %s\n", arg[0], strerror(errno));

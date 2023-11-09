@@ -3,6 +3,7 @@
 /**
  * tokenize - tokenize a char string into array of strings
  * @line: string to be tokenized
+ * @delim: delimeter
  *
  * Return: array of strings a
  */
@@ -13,7 +14,7 @@ char **tokenize(char *line, char *delim)
 	int i = 0;
 
 	arg = (char **)malloc(101 * sizeof(char *));
-	
+
 	token = strtok(line, delim);
 
 	while (token != NULL)
