@@ -12,8 +12,14 @@
 
 void free_mem(char **arg);
 
-char **tokenize(char *line);
+char **tokenize(char *line, char *delim);
 
 void execute(char *arg[]);
+
+void child_process(char **arg);
+
+char *location(char *path, char *arg);
+
+ char *get_loc(char *arg);
 
 #endif /*SHELL_H*/

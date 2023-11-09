@@ -7,20 +7,20 @@
  * Return: array of strings a
  */
 
-char **tokenize(char *line)
+char **tokenize(char *line, char *delim)
 {
 	char **arg, *token;
 	int i = 0;
 
 	arg = (char **)malloc(101 * sizeof(char *));
 	
-	token = strtok(line, " \n");
+	token = strtok(line, delim);
 
 	while (token != NULL)
 	{
 		arg[i] = malloc(strlen(token) + 1);
 		strcpy(arg[i++], token);
-		token = strtok(NULL, " \n");
+		token = strtok(NULL, delim);
 	}
 	arg[i] = NULL;
 	i = 0;
