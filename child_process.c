@@ -3,11 +3,12 @@
 /**
  * child_process - creates a child process, execute user command  and wait.
  * @arg: argument to be executed
+ * @path: full path to the executeable
  *
  * Return: nothing
  */
 
-void child_process(char **arg)
+void child_process(char *path, char **arg)
 {
 	pid_t child_pid;
 
@@ -21,7 +22,7 @@ void child_process(char **arg)
 	}
 	else if (child_pid == 0)
 	{
-		execute(arg);
+		execute(path, arg);
 		exit(EXIT_SUCCESS);
 	}
 	else

@@ -12,6 +12,8 @@ int main(void)
 	size_t buf_len = 0;
 	char **arg;
 	char *arg_delim = " \n";
+	char **full_path;
+	int i;
 
 	if (isatty(STDIN_FILENO))
 	{
@@ -29,8 +31,17 @@ int main(void)
 		}
 		else
 		{
-			child_process(arg);
+			full_path = getpath(arg[0]);
+			for (i = 0; full_path[i]; i++)
+			{
+				if (access(full_path[i], X_OK) == 0)
+				{
+					child_process(full_path[i], arg);
+				}
+			}
+			perror("access");
 			free_mem(arg);
+			free_mem(full_path);
 			free(line_buf);
 			free(line_cpy);
 			line_buf = NULL;

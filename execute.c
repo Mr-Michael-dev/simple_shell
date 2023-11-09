@@ -5,9 +5,12 @@
  *
  * Return: Nothing
  */
-void execute(char *arg[])
+
+extern char **environ;
+
+void execute(char *path, char **arg)
 {
-	if (execve(arg[0], arg, NULL) == -1)
+	if (execve(path, arg, environ) == -1)
 	{
 		fprintf(stderr, "%s: %s\n", arg[0], strerror(errno));
 		exit(EXIT_FAILURE);
