@@ -2,8 +2,9 @@
 
 /**
  * child_process - creates a child process, execute user command  and wait.
+ * @arg: argument to be executed
  *
- * Return: 0 always
+ * Return: nothing
  */
 
 void child_process(char **arg)
