@@ -18,7 +18,7 @@ void execute(char *path, char **arg);
 
 void child_process(char *path, char **arg);
 
-char **getpath(char *file);
+char *getpath(char *file);
 
 char *_getenv(const char *name);
 

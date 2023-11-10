@@ -2,30 +2,55 @@
 /**
  *
  */
-char **getpath(char *file)
+
+char *getpath(char *file)
 {
-	char *path_cpy, *Path_token, **filePath;
+	char *path_cpy, *Path_token, *filePath;
 	char *delim = ":";
 	char *path = _getenv("PATH");
-	int i = 0;
+
+	if (path == NULL)
+	{
+		fprintf(stderr, "Error: PATH environment variable not found.\n");
+		free(path);
+		return (NULL);
+	}
 
 	path_cpy = strdup(path);
-	Path_token = strtok(path_cpy, delim);
+	free(path);
+	if (path_cpy == NULL)
+	{
+		perror("strdup");
+		return (NULL);
+	}
 
-	filePath = (char **)malloc(1024 * sizeof(char *));
+	Path_token = strtok(path_cpy, delim);
 
 	while (Path_token != NULL)
 	{
-		filePath[i] = malloc(strlen(file) + strlen(Path_token) + 2);
-		strcpy(filePath[i], Path_token);
-		strcat(filePath[i], "/");
-		strcat(filePath[i], file);
+		filePath = malloc(strlen(Path_token) + strlen(file) + 2);
+		if (filePath == NULL)
+		{
+			perror("malloc");
+			free(path_cpy);
+			return (NULL);
+		}
 
+		strcpy(filePath, Path_token);
+		strcat(filePath, "/");
+		strcat(filePath, file);
+
+		if (access(filePath, X_OK) == 0)
+		{
+			free(path_cpy);
+			return (filePath);
+		}
+
+		free(filePath);
 		Path_token = strtok(NULL, delim);
-		
-		i++;
 	}
 
 	free(path_cpy);
-	return (filePath);
+	return (NULL);
 }
+
