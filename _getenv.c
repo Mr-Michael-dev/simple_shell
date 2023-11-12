@@ -2,7 +2,11 @@
 #include <string.h>
 
 extern char **environ;
-
+/**
+ *
+ *
+ *
+ */
 char *_getenv(const char *name)
 {
 	int i;
@@ -26,5 +30,4 @@ char *_getenv(const char *name)
 	}
 
 	return (NULL);
-
 }

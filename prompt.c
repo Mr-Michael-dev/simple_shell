@@ -34,6 +34,23 @@ int main(void)
 		{
 			arg = tokenize(line_cpy, arg_delim);
 
+			if (strcmp(arg[0], "exit") == 0)
+			{
+				exit(0);
+			}
+			else if (strcmp(arg[0], "env") == 0)
+			{
+				_env();
+				/*free(line_cpy);*/
+			}
+			else if (strcmp(arg[0], "cd") == 0)
+			{
+				if (arg[1] == NULL) 
+					chdir(_getenv("HOME"));
+				else
+					chdir(arg[1]);
+			}
+
 			if (access(arg[0], X_OK) == 0)
 			{
 				child_process(arg[0], arg);
