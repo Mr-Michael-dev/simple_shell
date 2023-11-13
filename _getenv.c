@@ -1,5 +1,4 @@
-#include <stdio.h>
-#include <string.h>
+#include "shell.h"
 
 extern char **environ;
 /**
@@ -10,24 +9,25 @@ extern char **environ;
 char *_getenv(const char *name)
 {
 	int i;
-	char *token;
 	char *value;
+	char *equals;
+	char *key;
 
 	for (i = 0; environ[i] != NULL; i++)
 	{
-		token = strtok(environ[i], "=");
-
-		if (token == NULL)
+		equals = strchr(environ[i], '=');
+		if (equals != NULL)
 		{
-			continue;
-		}
-
-		if (strcmp(name, token) == 0)
-		{
-			value = environ[i] + strlen(token) + 1;
-			return (strdup(value));
+			key = strndup(environ[i], equals - environ[i]);
+			if (strcmp(name, key) == 0)
+			{
+				value = strdup(equals + 1);
+				free(key);
+				return (value);
+			}
+			free(key);
 		}
 	}
 
-	return (NULL);
+		return (NULL);
 }

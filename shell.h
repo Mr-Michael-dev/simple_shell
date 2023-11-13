@@ -22,8 +22,6 @@ char *getpath(char *file);
 
 char *_getenv(const char *name);
 
-void _env(void);
-
-extern char **environ;
+void _printenv(void);
 
 #endif /*SHELL_H*/

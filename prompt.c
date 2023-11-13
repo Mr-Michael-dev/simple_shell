@@ -10,10 +10,9 @@ int main(void)
 {
 	char *line_buf = NULL, *line_cpy;
 	size_t buf_len = 0;
-	char **arg;
+	char **arg = NULL;
 	char *arg_delim = " \n";
 	char *full_path;
-	int i;
 
 	if (isatty(STDIN_FILENO))
 	{
@@ -32,21 +31,6 @@ int main(void)
 		{
 			free(line_cpy);
 		}
-		else if (strcmp(line_cpy, "env") == 0)
-		{
-			for (i = 0; environ[i] != NULL; i++)
-			{
-				printf("%s\n", environ[i]);
-				free(line_cpy);
-			}
-		}
-		else if (strcmp(line_cpy, "cd") == 0)
-		{
-			if (arg[1] == NULL) 
-				chdir(_getenv("HOME"));
-			else
-				chdir(arg[1]);
-		}
 		else
 		{
 			arg = tokenize(line_cpy, arg_delim);
@@ -54,10 +38,32 @@ int main(void)
 			if (strcmp(arg[0], "exit") == 0)
 			{
 				free_mem(arg);
+				free(line_cpy);
+				free(line_buf);
 				exit(0);
 			}
+			else if (strcmp(arg[0], "cd") == 0)
+			{
+				if (arg[1] == NULL)
+				{
+					chdir(_getenv("HOME"));
+				}
+				else
+				{
+					if (chdir(arg[1]) != 0)
+					{
+						fprintf(stderr, "cd: %s: %s\n", arg[1], strerror(errno));
+					}
+				}
 
-			if (access(arg[0], X_OK) == 0)
+				free_mem(arg);
+			}
+			else if (strcmp(arg[0], "env") == 0)
+			{
+				_printenv();
+				free_mem(arg);
+			}
+			else if (access(arg[0], X_OK) == 0)
 			{
 				child_process(arg[0], arg);
 				free_mem(arg);
@@ -67,14 +73,16 @@ int main(void)
 				if ((full_path = getpath(arg[0])) != NULL)
 				{
 					child_process(full_path, arg);
+					free_mem(arg);
 					free(full_path);
 				}
 				else
 				{
 					fprintf(stderr, "./hsh: %d: %s\n", errno, strerror(errno));
+					free_mem(arg);
+					free(full_path);
 				}
 
-				free_mem(arg);
 			}
 			free(line_cpy);
 		}
