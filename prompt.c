@@ -1,5 +1,6 @@
 #include "shell.h"
 
+
 /**
  * main - entrypoint to the shell
  *
@@ -12,6 +13,7 @@ int main(void)
 	char **arg;
 	char *arg_delim = " \n";
 	char *full_path;
+	int i;
 
 	if (isatty(STDIN_FILENO))
 	{
@@ -30,25 +32,29 @@ int main(void)
 		{
 			free(line_cpy);
 		}
+		else if (strcmp(line_cpy, "env") == 0)
+		{
+			for (i = 0; environ[i] != NULL; i++)
+			{
+				printf("%s\n", environ[i]);
+				free(line_cpy);
+			}
+		}
+		else if (strcmp(line_cpy, "cd") == 0)
+		{
+			if (arg[1] == NULL) 
+				chdir(_getenv("HOME"));
+			else
+				chdir(arg[1]);
+		}
 		else
 		{
 			arg = tokenize(line_cpy, arg_delim);
 
 			if (strcmp(arg[0], "exit") == 0)
 			{
+				free_mem(arg);
 				exit(0);
-			}
-			else if (strcmp(arg[0], "env") == 0)
-			{
-				_env();
-				/*free(line_cpy);*/
-			}
-			else if (strcmp(arg[0], "cd") == 0)
-			{
-				if (arg[1] == NULL) 
-					chdir(_getenv("HOME"));
-				else
-					chdir(arg[1]);
 			}
 
 			if (access(arg[0], X_OK) == 0)
