@@ -24,4 +24,6 @@ char *_getenv(const char *name);
 
 void _printenv(void);
 
+extern char **environ;
+
 #endif /*SHELL_H*/

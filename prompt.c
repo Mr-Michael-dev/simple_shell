@@ -1,6 +1,5 @@
 #include "shell.h"
-
-
+int main(void);
 /**
  * main - entrypoint to the shell
  *
@@ -70,7 +69,8 @@ int main(void)
 			}
 			else
 			{
-				if ((full_path = getpath(arg[0])) != NULL)
+				full_path = getpath(arg[0]);
+				if (full_path != NULL)
 				{
 					child_process(full_path, arg);
 					free_mem(arg);

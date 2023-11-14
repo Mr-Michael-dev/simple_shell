@@ -1,13 +1,11 @@
 #include "shell.h"
-
 /**
+ * _printenv - prints then enviroment varaible to the stdout
  *
- *
- *
+ * Return: Nothing
  */
 void _printenv(void)
 {
-	extern char **environ;
 	char **env = environ;
 
 	while (*env != NULL)

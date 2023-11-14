@@ -22,6 +22,7 @@ void child_process(char *path, char **arg)
 	}
 	else if (child_pid == 0)
 	{
+		/*free_mem(arg);*/
 		execute(path, arg);
 		exit(EXIT_SUCCESS);
 	}

@@ -1,10 +1,9 @@
 #include "shell.h"
-
-extern char **environ;
 /**
+ * _getenv - retrieve the value of a specific enviroment variable
+ * @name: name of the enviroment variable to retrieve
  *
- *
- *
+ * Return: the value of the variable, NULL on error
  */
 char *_getenv(const char *name)
 {

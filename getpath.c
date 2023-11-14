@@ -1,6 +1,10 @@
 #include "shell.h"
+char *getpath(char *file);
 /**
+ * getpath - check for an executable file in each directory in the path
+ * @file: name of the executable
  *
+ * Return: full path to the executable, otherwise returns NULL.
  */
 
 char *getpath(char *file)
@@ -17,11 +21,14 @@ char *getpath(char *file)
 	}
 
 	path_cpy = strdup(path);
-	free(path);
 	if (path_cpy == NULL)
 	{
 		perror("strdup");
 		return (NULL);
+	}
+	else
+	{
+		free(path);
 	}
 
 	Path_token = strtok(path_cpy, delim);
