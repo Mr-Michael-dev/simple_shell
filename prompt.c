@@ -42,21 +42,8 @@ int main(void)
 				exit(0);
 			}
 			else if (strcmp(arg[0], "cd") == 0)
-			{
-				if (arg[1] == NULL)
-				{
-					chdir(_getenv("HOME"));
-				}
-				else
-				{
-					if (chdir(arg[1]) != 0)
-					{
-						fprintf(stderr, "cd: %s: %s\n", arg[1], strerror(errno));
-					}
-				}
+				_chdir(arg);
 
-				free_mem(arg);
-			}
 			else if (strcmp(arg[0], "env") == 0)
 			{
 				_printenv();
