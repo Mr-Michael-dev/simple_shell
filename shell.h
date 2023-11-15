@@ -24,8 +24,6 @@ char *_getenv(const char *name);
 
 void _printenv(void);
 
-void exit_handler(char **arg, char *line_cpy, char *line_buf);
-
 void _chdir(char **arg);
 
 extern char **environ;

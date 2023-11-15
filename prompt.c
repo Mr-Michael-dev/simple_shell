@@ -12,6 +12,7 @@ int main(void)
 	char **arg = NULL;
 	char *arg_delim = " \n";
 	char *full_path;
+	int status;
 
 	if (isatty(STDIN_FILENO))
 	{
@@ -36,11 +37,18 @@ int main(void)
 
 			if (strcmp(arg[0], "exit") == 0)
 			{
+				status = EXIT_SUCCESS;
+
+				if (arg[1])
+					status = atoi(arg[1]);
+
 				free_mem(arg);
 				free(line_cpy);
 				free(line_buf);
-				exit(0);
+				exit(status);
+
 			}
+
 			else if (strcmp(arg[0], "cd") == 0)
 				_chdir(arg);
 
